@@ -65,7 +65,7 @@ are more common on the weekends it does not necessarily mean that most of our ca
 In order to dive deeper I decided to investigate the length of each trip on each day of the week and to again separate 
 the users by active subscribers and casual users.
 
-The data on the right indicates heavily that the trip duration during the week for our paid subscribers
+The data indicates heavily that the trip duration during the week for our paid subscribers
 is highly consistent and short compared to the sporadic and long rides that our casual users are regularly taking.
 Additionally, the peak time for subscribed riders is at 8:15 am and 5:15 pm. These times correlate closely with the hours
 of your average 9-5 job.
