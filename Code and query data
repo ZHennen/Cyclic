@@ -1,0 +1,368 @@
+The raw data was collected from Coursera’s Dropbox site and was distributed into 4, 3-month quarters. 
+Each one of these quarters was individually imported into the R studio and renamed to keep them simple and easier to handle.
+
+before accessing the data the correct packages were installed and loaded into the R library.
+
+
+
+
+
+```install.packages("tidyverse")
+
+install.packages("lubridate")
+
+install.packages("ggplot2")
+
+library(lubridate)
+
+library(ggplot2)
+
+library(tidyverse)```
+
+
+
+
+
+Some of the columns in each database had a few different names and data types which had to be standardized 
+to allow them to properly merge into one file. 
+
+
+
+
+
+```q1_2019 <-  mutate(q1_2019, trip_id = as.character(trip_id)
+
+                    ,bikeid = as.character(bikeid))
+
+q2_2019 <-  mutate(q2_2019, trip_id = as.character(trip_id)
+
+                   ,bikeid = as.character(bikeid))
+
+q3_2019 <-  mutate(q3_2019, trip_id = as.character(trip_id)
+
+                    ,bikeid = as.character(bikeid))
+
+q4_2019 <-  mutate(q4_2019, trip_id = as.character(trip_id)
+
+                   ,bikeid = as.character(bikeid))```
+
+
+
+
+
+Once the column’s names and data types were all equivalent it was time to merge them into one large dataset.
+
+
+
+
+
+```all_trips <- bind_rows(q1_2019, q2_2019, q3_2019, q4_2019)```
+
+
+
+
+
+All of the old charts became superfluous and were removed.
+
+
+
+
+
+```remove(q1_2019)
+
+remove(q2_2019) 
+
+remove(q3_2019)
+
+remove(q4_2019) ```
+
+
+
+
+
+Analyzing the new and large dataset it is obvious that some of the statistics that Cyclic tracks
+are outdated and no longer tracked and some of the language Cyclic uses has changed as well. 
+The extra columns were discarded and the language changes were made.
+
+
+
+
+```all_trips <- all_trips %>%  
+
+    select(-c(gender, birthyear))
+
+all_trips <-  all_trips %>% 
+
+    mutate(member_casual = recode(usertype
+
+     ,"Subscriber" = "member"
+
+  ,"Customer" = "casual"))```
+
+
+
+A quick query was launched to check how many Subscribers and Casual users there were in the Cyclic database. Quickly adding these two numbers together will give us a total user count which we can use to make a pie chart.
+
+
+```table(all_trips$member_casual) Casual-711,238  + Member-1,989,161 = 2,700,399 users.```
+
+
+
+
+
+The way the date information in this dataset is formatted is a little hard to work with
+so we implement the code below to make it a little easier to read and work with. We also take a look at the trip duration 
+information, turn it into a number, and get rid of any trip duration outliers that are less than 0 seconds
+long which will clean our data further.
+
+
+
+
+
+```all_trips$date <- as.Date(all_trips$start_time)
+
+all_trips$month <- format(as.Date(all_trips$date), "%m")
+
+all_trips$day <- format(as.Date(all_trips$date), "%d")
+
+all_trips$year <- format(as.Date(all_trips$date), "%Y")
+
+all_trips$day_of_week <- format(as.Date(all_trips$date), "%A")
+
+all_trips$tripduration <- as.numeric(as.character(all_trips$tripduration))
+
+is.numeric(all_trips$tripduration)
+
+all_trips_v2 <- all_trips[!(all_trips$from_station_name == "HQ QR" | all_trips$tripduration<0),]
+
+remove(all_trips)```
+
+
+
+
+
+Next, we run some basic functions on our trip duration to find out the mean, median, max, and min.
+It can be noted that the summary() function could yield the same information.
+
+
+
+
+
+```mean(all_trips_v2$tripduration)
+
+[1] 1130.203
+
+median(all_trips_v2$tripduration)
+
+[1] 562
+
+max(all_trips_v2$tripduration)
+
+[1] 10628400
+
+min(all_trips_v2$tripduration)
+
+[1] 61```
+
+
+
+
+
+Here we will compare the mean, median, max, and min trip duration for subscribers and casual users.
+
+
+
+
+
+```aggregate(all_trips_v2$tripduration ~ all_trips_v2$member_casual, FUN = mean)
+
+  all_trips_v2$member_casual all_trips_v2$tripduration
+
+1                     casual                 3674.4601
+
+2                     member                  779.9903
+
+aggregate(all_trips_v2$tripduration ~ all_trips_v2$member_casual, FUN = median)
+
+  all_trips_v2$member_casual all_trips_v2$tripduration
+
+1                     casual                      1306
+
+2                     member                       518
+
+aggregate(all_trips_v2$tripduration ~ all_trips_v2$member_casual, FUN = max)
+
+  all_trips_v2$member_casual all_trips_v2$tripduration
+
+1                     casual                  10628400
+
+2                     member                   6096430
+
+
+
+aggregate(all_trips_v2$tripduration ~ all_trips_v2$member_casual, FUN = min)
+
+  all_trips_v2$member_casual all_trips_v2$tripduration
+
+1                     casual                        61
+
+2                     member                        61```
+
+
+
+
+
+This information can be useful but at this point, my theory was starting to form that the duration of rides for 
+members and casuals needed to be tracked against the individual days of the week. To start this process it makes a lot more 
+sense to order the days of the week starting with Sunday and ending with Saturday.
+
+
+
+
+
+```all_trips_v2$day_of_week <- ordered(all_trips_v2$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+
+aggregate(all_trips_v2$tripduration ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
+
+ all_trips_v2$member_casual all_trips_v2$day_of_week
+
+1                      casual                   Sunday
+
+2                      member                   Sunday
+
+3                      casual                   Monday
+
+4                      member                   Monday
+
+5                      casual                  Tuesday
+
+6                      member                  Tuesday
+
+7                      casual                Wednesday
+
+8                      member                Wednesday
+
+9                      casual                 Thursday
+
+10                     member                 Thursday
+
+11                     casual                   Friday
+
+12                     member                   Friday
+
+13                     casual                 Saturday
+
+14                     member                 Saturday
+
+  all_trips_v2$tripduration
+
+1                  3560.9620
+
+2                   850.0063
+
+3                  2682.7479
+
+4                   761.6771
+
+5                  3806.7893
+
+6                   810.2892
+
+7                  4150.5981
+
+8                   727.4238
+
+9                  4311.7361
+
+10                  719.2504
+
+11                 3751.5925
+
+12                  754.1879
+
+13                 3635.4547
+
+14                  952.4150```
+
+
+
+
+
+Now that we have a theory and the data it is important to back up our findings with a few graphs to make it easier to read. First for the number of rides on each weekday and second for the average length of each ride on any given weekday.
+
+
+
+
+
+
+ ```all_trips_v2 %>% 
+
+     mutate(weekday = wday(start_time, label = TRUE)) %>% 
+
+     group_by(usertype, weekday) %>% 
+
+    summarise(number_of_rides = n(),
+
+            average_duration = mean(tripduration)) %>% 
+
+     arrange(usertype, weekday)  %>% 
+
+     ggplot(aes(x = weekday, y = number_of_rides, fill = usertype)) +
+
+     geom_col(position = "dodge")```
+
+
+
+
+
+``` all_trips_v2 %>% 
+
+    mutate(weekday = wday(start_time, label = TRUE)) %>% 
+
+    group_by(member_casual, weekday) %>% 
+
+    summarise(number_of_rides = n()
+
+              ,average_duration = mean(tripduration)) %>% 
+
+    arrange(member_casual, weekday)  %>% 
+
+    ggplot(aes(x = weekday, y = average_duration, fill = member_casual)) +
+
+    geom_col(position = "dodge")```
+
+
+
+
+
+
+Our evidence was pretty strong but in order to make it even stronger it was important to be able to take this dataset
+and upload it into SQL to get some more information. In order to upload it to SQL we had to first save it as a file.
+
+
+
+
+
+```write.csv(counts, file = '~/Desktop/USER/avg_ride_length.csv')```
+
+
+
+
+
+Once we were in SQL it was a few trial-and-error queries to come up with a nice line graph dictating the times
+of day members and casual riders would enjoy the Cyclic service.
+
+
+
+
+
+
+```popular_ride_times AS (
+
+SELECT member_casual, EXTRACT(hour FROM start_time AS time_of_day, count(*) AS num_of_rides
+
+FROM trip_data_v2
+
+GROUP BY member_casual, time_of_day
+
+)```
