@@ -1,0 +1,132 @@
+Objective: Maximize the number of members over casual users.
+
+To start this project I was given 6 months of data to analyze to try and answer Lily Moreno’s questions. 
+How can we maximize the number of members for our company Cyclic? After downloading the data I uploaded each individual 
+month into my R programming studio and ensured that I had the correct packages installed to enable advanced functions in R.
+
+After this step, I jumped into organizing and cleaning my data.
+
+Some of these months had different or extra column names so I had to discard a few statistics that were no longer being tracked
+and to standardize the names of a few columns too. Once all the column names were standardized
+I ensured that each data type was standardized as well because if they were not standardized the files
+would not be able to merge properly. After all of my organization was complete I was able to take all 6 months of data
+and combine them into one large datasheet. 
+
+With some quick querying, I was able to learn that there was a total of 2,700,399 unique users within this 6 month period.
+Of those 2,700,399 users, 711,238 of them were casual riders, meaning they do not have an active subscription, and 1,989,161
+of these riders were active subscribers. Over to the right is a pie chart showing the percentage of subscribers
+to casual riders. With 26.4% of the riders being casual, it is important to try and find a trend with how these riders
+interact with the service to see if we can try and convince them to become active subscribers.
+
+
+
+Theory:
+
+My first inclination is to consider the fact that Cyclic is based out of the city of Chicago in Illinois. 
+Chicago is a huge tourist destination and it makes sense to look up local travel data to see how many visitors
+the city of Chicago receives on a yearly basis and to compare it to the residents of Chicago. With some quick searching, 
+it appears that Chicago welcomed over 60 million visitors in the year that this data was gathered.
+
+Another quick search revealed that the city of Chicago only has a population of 8,862,000.
+
+Chicago has almost 6 times as many visitors as residents. Because of this fact,
+I would like to work off of the theory that a lot of our more casual riders could be tourists.
+
+To back up this claim I looked at the usage statistics to figure out which days of the week were the most popular for Cyclic
+and what relationship each day of the week had with both casual users and active subscribers. 
+What I ended up finding was that active subscribers were actually much more likely to use our services during the week 
+Monday-Friday while the casual riders were almost twice as likely to ride their bikes during the weekends. 
+Even though casual riders are only 26.4% of users their usage was still similar to active subscribers on the weekends.
+
+
+
+Deeper Test:
+
+I wanted to investigate a little further into my theory because although it is evident that casual Cyclic
+users are more common on the weekends it does not necessarily mean that most of our casual riders are tourists. 
+In order to dive deeper I decided to investigate the length of each trip on each day of the week and to again separate
+the users by active subscribers and casual users.
+
+The data on the right indicates heavily that the trip duration during the week for our paid subscribers 
+is highly consistent and short compared to the sporadic and long rides that our casual users are regularly taking. 
+Additionally, the peak time for subscribed riders is at 8:15 am and 5:15 pm. These times correlate closely with the hours
+of your average 9-5 job.
+
+These facts could definitely indicate that our subscribed users are using our services to get to and from work every day
+while our casual users could be using our services to enjoy their time touring the town. 
+
+
+
+
+Suggestions:
+
+wanted to investigate a little further into my theory because although it is evident that casual Cyclic users
+are more common on the weekends it does not necessarily mean that most of our casual riders are tourists. 
+In order to dive deeper I decided to investigate the length of each trip on each day of the week and to again separate 
+the users by active subscribers and casual users.
+
+The data on the right indicates heavily that the trip duration during the week for our paid subscribers
+is highly consistent and short compared to the sporadic and long rides that our casual users are regularly taking.
+Additionally, the peak time for subscribed riders is at 8:15 am and 5:15 pm. These times correlate closely with the hours
+of your average 9-5 job.
+
+These facts could definitely indicate that our subscribed users are using our services to get to and from work every day
+while our casual users could be using our services to enjoy their time touring the town. 
+
+
+
+For Tourists:
+
+For the casual rider or tourist visiting the city of Chicago. 
+Cyclic could enhance its subscription options to allow for more flexibility for its users. 
+As it stands right now there are only single rides and single-day passes before it jumps to an entire year subscription.
+This commitment jump is very large and could be intimidating for some users. 
+If Cyclic were to add a monthly subscription service it could become more appealing to the general population. 
+If a tourist were going to visit Chicago for a week it would certainly be cheaper to subscribe for one month
+than to rent a bike every single day. Cyclic could even open up the option for a weekly subscription service.
+
+
+
+For Locals:
+
+For the residents of Chicago. Currently, only 1,989,161 users are active subscribers. 
+This is less than 25% of the population of Chicago. There is a huge potential for additional users and subscribers
+in this population and when you pull statistics from the Chicago Transit website
+“CTA Facts at a Glance - CTA (transitchicago.com)” shows that there are over 500 million trips annually on
+the Chicago public transport systems. This is a huge opportunity for Cyclic. 
+
+Based on the riding habits of the subscribers it appears that each subscriber uses their
+Cyclic membership for less than 15 minutes per session and they use them to get to and from work.
+It could be a very good idea to create a subscription pass that is slightly cheaper but only includes
+weekdays and not weekends. This approach could prove enticing to those users who just want to use Cyclic’s
+services for work
+
+
+
+Final Thoughts:
+
+The problem I see with opening too many subscription options could be
+decision fatigue for each user so it would be important to balance subscription options to around 3 or 4 options.
+
+Options could be a great help but only changing the available options isn’t going to get anyone’s attention
+it will be important to run advertisement campaigns around the city to ensure that the local residents as well
+as the incoming tourists are aware of the possibility of traveling with Cyclic. For physical advertisements,
+I would encourage Cyclic to purchase signs or posters at the airports, train stations, and bus stations to 
+attempt to sway the public away from using the public transportation system.
+
+For social media advertisement, I would encourage Cyclic to Host or sponsor local bike races or weekend exercise groups 
+for subscribers. This could be a fantastic way to retain active subscribers and encourage new local users. 
+If the Cyclic social media groups actively advertise and make these events fun and exciting the growth could be phenomenal.
+
+No matter how Cyclic is advertised keeping Cyclic perceived as the healthier 
+and a more convenient option of transportation will be key. 
+
+To keep the service advertised and convenient I would encourage Cyclic to place its bike stations around bus stops,
+train stations, as well as popular tourist destinations. It’s free advertisement and makes Cyclic accessible to all.
+
+Chicago is a city teeming with life. It has close to 9 million residents and over 60 million annual visitors.
+If more people know about Cyclic as a safe, healthy, and convenient option,
+and if the subscription options are flexible enough for the average user then the subscription userbase
+will be open to the opportunity of expansion well beyond where Cyclic is currently at. 
+
+
